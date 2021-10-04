@@ -1,5 +1,5 @@
-# InsiderEnroller without MS Account
----------------------------------
+# Insider-Enroller for Windows 10 or Windows 11 users without MS Account
+------------------------------------------------------------------------
 
 ## Table of contents
 * Description
