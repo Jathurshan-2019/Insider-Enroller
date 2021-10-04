@@ -5,7 +5,7 @@
 * [Description](https://github.com/Jathurshan-2019/Insider-Enroller/blob/main/README.md#description)
 * [Usage](https://github.com/Jathurshan-2019/Insider-Enroller/blob/main/README.md#usage)
 * [Installation](https://github.com/Jathurshan-2019/Insider-Enroller/blob/main/README.md#installation-and-configuration-changes)
-  * [Notice]
+  * Notice
 * [Restoration](https://github.com/Jathurshan-2019/Insider-Enroller/blob/main/README.md#restoring-windows-insider-program-to-default-options)
 * [License](https://github.com/Jathurshan-2019/Insider-Enroller/blob/main/README.md#license)
 * [Insipiration and Idea](https://github.com/Jathurshan-2019/Insider-Enroller/blob/main/README.md#inspiration-and-idea)
