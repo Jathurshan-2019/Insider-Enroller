@@ -59,7 +59,7 @@ This Script is made using **`OfflineInsiderEnroll v2.5.0`**
 
 
 [License Files]
-[MIT](https://drive.google.com/file/d/197rROuFe5WP6m8-oPHcbC45X8DI73-LM/view?usp=sharing) /
-[OfflineInsiderEnroll MIT](https://drive.google.com/file/d/1FDWD-L1M-23MoQ5iGPUQOZtcogI_6MV_/view?usp=sharing) /
-[Apache 2.0](https://drive.google.com/file/d/1MAAUzYJrW6e15n1EWkNo8jvkza6edA5B/view?usp=sharing) /
+[MIT License](https://drive.google.com/file/d/197rROuFe5WP6m8-oPHcbC45X8DI73-LM/view?usp=sharing) /
+[OfflineInsiderEnroll MIT License](https://drive.google.com/file/d/1FDWD-L1M-23MoQ5iGPUQOZtcogI_6MV_/view?usp=sharing) /
+[Apache 2.0 License](https://drive.google.com/file/d/1MAAUzYJrW6e15n1EWkNo8jvkza6edA5B/view?usp=sharing) /
 [GNU License](https://drive.google.com/file/d/1hNbwGzT5EkmZL0AvHHIagwyGFaj0og03/view?usp=sharing)
