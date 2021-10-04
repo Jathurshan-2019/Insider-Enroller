@@ -42,3 +42,7 @@ the registry.
 
 ### License
 This project is licensed under the **`MIT License, Apache 2.0 License and GNU 3.0`**. See **`LICENSE`** for details.
+
+### Idea or Inspiration
+This Script is made using **`OfflineInsiderEnroll v2.5.0`**
+**I have added its License File to the code**
