@@ -11,6 +11,10 @@ This script is compatible only with **Windows 10 v1903 and later. Including Wind
 This script requires administrative priviliges to run. You can simply execute it
 by right clicking it > **`Run as Administrator`**.
 
+[![](https://drive.google.com/uc?export=view&id=15Vb4xFaud1a5s8yseIBcsF0VXo2PPCOk)](https://google.com)
+[![](https://drive.google.com/uc?export=view&id=15_HYkXHeT5K9_YU_h-9JwFqkpmFD9DKU)](https://google.com)
+
+
 #### Installation and configuration changes
 After starting the script offers selection of __*Windows Insider Program*__ channels.
 To make a selection, press a letter coresponding to option you choose and press
@@ -25,7 +29,11 @@ After enrolling your machine to the **Windows Insider Program** please make sure
 that your diagnostic data collection settings are set to **Full**. Some *Insider
 Preview* builds may not get offered in **Windows Update** if you do not have
 correct telemetry settings. You can verify or modify your telemetry settings in
-*Settings* > *Privacy and Security* > *Diagnostics & feedback* __in Windows 11__ and *Settings* > *Privacy* > *Diagnostics & Feedback* __in Windows 10__.
+*`Settings`* > *`Privacy and Security`* > *`Diagnostics & feedback`* __in Windows 11__ 
+[![](https://cdn.vox-cdn.com/thumbor/LsBj5M4UZUbhx_Pj1bwOSxai98M=/0x0:1920x1080/920x613/filters:focal(807x387:1113x693):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/69950006/Hero_Bloom_Logo.0.jpg)](https://www.theverge.com)
+
+And *`Settings`* > *`Privacy`* > *`Diagnostics & Feedback`* __in Windows 10__.
+[![](https://www.mobigyaan.com/wp-content/uploads/2020/09/Windows-10-featured.jpeg)](https://www.mobigyaan.com)
 
 #### Restoring Windows Insider Program to default options
 To restore *Windows Insider Program* to default settings simply choose `Stop receiving Insider Preview builds` in `Insider-Enroll Script`. You will get prompted
