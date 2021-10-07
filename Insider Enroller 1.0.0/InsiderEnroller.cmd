@@ -1,6 +1,7 @@
 @setlocal DisableDelayedExpansion
 @echo off
-::Made By Jathurshan 
+set "scriptver=1.0.0"
+
 set "_cmdf=%~f0"
 if exist "%SystemRoot%\Sysnative\cmd.exe" (
 setlocal EnableDelayedExpansion
@@ -18,63 +19,88 @@ set "Path=%SysPath%;%SystemRoot%;%SysPath%\Wbem;%SysPath%\WindowsPowerShell\v1.0
 
 for /f "tokens=6 delims=[]. " %%i in ('ver') do set build=%%i
 
-if %build% LSS 17763 (
-    echo ==-----------------------------------------------------------------------------------------------------==
-    echo   This script is compatible only with Windows 10 2019 May Update (Windows 10 1903) and with Windows 11.
-    echo ==-----------------------------------------------------------------------------------------------------==
+if %build% LSS 18362 (
+    echo =-------------------------------------------------------------=
+    echo  The script is compatible only with Windows 10 v1903 and later
+    echo =-------------------------------------------------------------=
+    echo.
+    echo          ==========
+    echo Download Windows 11 at https://bit.ly/Win11ISODown
+    echo          ==========
+    echo. Note : Some PCs are not compatible with Windows 11
+    echo.
+    echo         =================
+    echo Download Windows 10 21H2 at https://bit.ly/Win1020H2ISO
+    echo         =================
+    echo go to select edition and select Windows 10 Insider Preview
+    echo.
+    echo         ===========
+    echo Download Windows 10 Latest Version at https://bit.ly/Win1021H1
+    echo         ===========
+    echo This Link will straightly start Downloading the ISO file.
     echo.
     pause
     goto :EOF
 )
 
 reg query HKU\S-1-5-19 1>nul 2>nul
-IF %ERRORLEVEL% EQU 0 goto :START_SCRIPT
+if %ERRORLEVEL% equ 0 goto :START_SCRIPT
 
-echo =-----------------------------------------------------=
-echo  This script needs to be executed as an administrator.
-echo =-----------------------------------------------------=
+echo =--------------------------=--------------------------=
+echo     This script needs Administrator rights to run
+echo =--------------------------=--------------------------=
+echo.
+echo To run it as Administrator right click and select Run As Administrator
 echo.
 pause
 goto :EOF
 
 :START_SCRIPT
-set "scriptver=1.0.0"
 set "FlightSigningEnabled=0"
-bcdedit /enum {current} | findstr /I /R /C:"^flightsigning *Yes$" >NUL 2>&1
-IF %ERRORLEVEL% EQU 0 set "FlightSigningEnabled=1"
+bcdedit /enum {current} | findstr /I /R /C:"^flightsigning *Yes$" >nul 2>&1
+if %ERRORLEVEL% equ 0 set "FlightSigningEnabled=1"
 
 :CHOICE_MENU
 cls
 set "choice="
-echo Insider Enroll without MS Account v%scriptver%
-echo Apache 2.0 License
-echo Copyright 2021 © of Jathurshan Myuran
-echo Licensed under the Apache License, Version 2.0 (the "License");
-echo You must not use this file except in compliance with the License.
-echo Unless required by applicable law or agreed to in writing, software
-echo distributed under the License is distributed on an "AS IS" BASIS,
-echo WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-echo See the License for the specific language governing permissions and
-echo limitations under the License.
+echo                                  ============================
+echo                                    Insider-Enroller v%scriptver%
+echo                                  ============================
 echo.
-echo This Code made by Jathurshan Myuran From Offline Insider Enroll Code
-echo 1 - Enroll your Device to Dev Channel[Very Early least tested code] (Disclaimer: Dev Channel builds have many bugs. This channel is for DEVELOPMENT-USE only)
-echo 2 - Enroll your Device to Beta Channel[more tested code than Dev Channel] (Disclaimer: Beta Channel builds have less bugs than Dev channel. This Channel is for GENERAL TESTING-USE)
-echo 3 - Enroll your Device to Release Preview Channel[Very well tested code] (Disclaimer: Release Preview Channel builds may have some bugs. This channel is for COMMERCIAL-USE)
+echo ===============================================================================
+echo 1 :- Enroll to Dev Channel (Recommended for Developers and Professional Users)  [Requires Reboot if you are not Windows Insider]
+echo ===============================================================================
+echo (New Features will be release first to this channel and this channel have more bugs and errors)
 echo.
-echo 4 - Stop Receving Preview Builds From your Insider Channel
-echo 5 - Quit the Script without making any changes to your pc
+echo =============================================================
+echo 2 :- Enroll to Beta Channel (Recommended for Personal users)  [Requires Reboot if you are not Windows Insider]
+echo =============================================================
+echo (New features are release to this channel monthly from dev channel this channel have less bugs and errors compared to Dev channel)
 echo.
-set /p choice="Number of Action: "
+echo =======================================================================
+echo 3 :- Enroll to Release Preview Channel(Recommended for business users)  [Requires Reboot if you are not Windows Insider]
+echo =======================================================================
+echo (New Features will be released to this channel slightly before public release this channel may have some bugs [No possiblity of bugs and errors])
+echo.
+echo ====================================================
+echo 4 :- Leave Windows Insider Program(Requires Reboot)
+echo ====================================================
+echo ================================================
+echo 5 :- Quit the script without making any changes
+echo ================================================
+echo.
+set /p choice="Enter Number of your Choice: "
+echo.
+echo Your choice is "%choice%"
 echo.
 if /I "%choice%"=="1" goto :ENROLL_DEV
 if /I "%choice%"=="2" goto :ENROLL_BETA
-if /I "%choice%"=="3" goto :ENROLL_REPR
+if /I "%choice%"=="3" goto :ENROLL_REPRE
 if /I "%choice%"=="4" goto :STOP_INSIDER
 if /I "%choice%"=="5" goto :EOF
 goto :CHOICE_MENU
 
-:ENROLL_REPR
+:ENROLL_REPRE
 set "Channel=ReleasePreview"
 set "Fancy=Release Preview Channel"
 set "BRL=8"
@@ -118,6 +144,12 @@ reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Windows
 reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" /f /v AllowTelemetry
 reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /f /v AllowTelemetry
 reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f /v BranchReadinessLevel
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup" /t REG_DWORD /v AllowUpgradesWithUnsupportedTPMOrCPU /d 1 /f
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\WindowsUpdate" /t REG_DWORD /v AllowWindowsUpdate /d 1 /f
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /t REG_DWORD /v BypassTPMCheck /d 1 /f
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /t REG_DWORD /v BypassSecureBootCheck /d 1 /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI" /f /t REG_DWORD /v UIControllableState /d 0
+
 goto :EOF
 
 :ADD_INSIDER_CONFIG
@@ -133,7 +165,7 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability" /f
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability" /f /t REG_SZ /v Ring /d "%Ring%"
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability" /f /t REG_SZ /v ContentType /d "%Content%"
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability" /f /t REG_SZ /v BranchName /d "%Channel%"
-if %build% LSS 22000 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Strings" /f /t REG_SZ /v StickyXaml /d "<StackPanel xmlns="^""http://schemas.microsoft.com/winfx/2006/xaml/presentation"^""><TextBlock Style="^""{StaticResource BodyTextBlockStyle }"^"">This device has been enrolled to the Windows Insider program using Insider-Enroller v%scriptver%. If you want to change settings of the enrollment or stop receiving Insider Preview builds, please use the script. <Hyperlink NavigateUri="^""https://github.com/Jathurshan-2019/Insider-Enroller"^"" TextDecorations="^""None"^"">Learn more from This Page</Hyperlink></TextBlock><TextBlock Text="^""Applied configuration"^"" Margin="^""0,20,0,10"^"" Style="^""{StaticResource SubtitleTextBlockStyle}"^"" /><TextBlock Style="^""{StaticResource BodyTextBlockStyle }"^"" Margin="^""0,0,0,5"^""><Run FontFamily="^""Segoe MDL2 Assets"^"">&#xECA7;</Run> <Span FontWeight="^""SemiBold"^"">%Fancy%</Span></TextBlock><TextBlock Text="^""Channel: %Channel% Channel"^"" Style="^""{StaticResource BodyTextBlockStyle }"^"" /><TextBlock Text="^""Content: %Content%"^"" Style="^""{StaticResource BodyTextBlockStyle }"^"" /><TextBlock Text="^""Telemetry settings notice"^"" Margin="^""0,20,0,10"^"" Style="^""{StaticResource SubtitleTextBlockStyle}"^"" /><TextBlock Style="^""{StaticResource BodyTextBlockStyle }"^"">Windows Insider Program requires diagnostic data collection settings to be set to <Span FontWeight="^""SemiBold"^"">Full</Span>. You can verify or modify your current settings in <Span FontWeight="^""SemiBold"^"">Diagnostics &amp; feedback</Span>.</TextBlock><Button Command="^""{StaticResource ActivateUriCommand}"^"" CommandParameter="^""ms-settings:privacy-feedback"^"" Margin="^""0,10,0,0"^""><TextBlock Margin="^""5,0,5,0"^"">Open Diagnostics &amp; feedback</TextBlock></Button></StackPanel>"
+if %build% LSS 22000 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Strings" /f /t REG_SZ /v StickyXaml /d "<StackPanel xmlns="^""http://schemas.microsoft.com/winfx/2006/xaml/presentation"^""><TextBlock Style="^""{StaticResource BodyTextBlockStyle }"^"">This device has been enrolled to the Windows Insider program using Insider-Enroller v%scriptver%. If you want to change settings of the enrollment or stop receiving Insider Preview builds, please use the script. <Hyperlink NavigateUri="^""https://github.com/Jathurshan-2019/offlineinsiderenroll/blob/master/readme.md"^"" TextDecorations="^""None"^"">Learn more about Script at GitHub</Hyperlink></TextBlock><TextBlock Text="^""Applied configuration"^"" Margin="^""0,20,0,10"^"" Style="^""{StaticResource SubtitleTextBlockStyle}"^"" /><TextBlock Style="^""{StaticResource BodyTextBlockStyle }"^"" Margin="^""0,0,0,5"^""><Run FontFamily="^""Segoe MDL2 Assets"^"">&#xECA7;</Run> <Span FontWeight="^""SemiBold"^"">%Fancy%</Span></TextBlock><TextBlock Text="^""Channel: %Channel% Channel"^"" Style="^""{StaticResource BodyTextBlockStyle }"^"" /><TextBlock Text="^""Content: %Content%"^"" Style="^""{StaticResource BodyTextBlockStyle }"^"" /><TextBlock Text="^""Telemetry settings notice"^"" Margin="^""0,20,0,10"^"" Style="^""{StaticResource SubtitleTextBlockStyle}"^"" /><TextBlock Style="^""{StaticResource BodyTextBlockStyle }"^"">Windows Insider Program requires ^<Span FontWeight="^""SemiBold"^"">Optional diagnostic data</Span>. You can verify or modify your current settings in <Span FontWeight="^""SemiBold"^"">Diagnostics &amp; feedback</Span>.</TextBlock><Button Command="^""{StaticResource ActivateUriCommand}"^"" CommandParameter="^""ms-settings:privacy-feedback"^"" Margin="^""0,10,0,0"^""><TextBlock Margin="^""5,0,5,0"^"">Open Diagnostics &amp; feedback</TextBlock></Button></StackPanel>"
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility" /f /t REG_DWORD /v UIHiddenElements /d 65535
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility" /f /t REG_DWORD /v UIDisabledElements /d 65535
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility" /f /t REG_DWORD /v UIServiceDrivenElementVisibility /d 0
@@ -174,12 +206,12 @@ reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup" /t REG_DWORD /v AllowUpgradesW
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\WindowsUpdate" /t REG_DWORD /v AllowWindowsUpdate /d 1 /f
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /t REG_DWORD /v BypassTPMCheck /d 1 /f
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /t REG_DWORD /v BypassSecureBootCheck /d 1 /f
-if %build% LSS 18362 goto :EOF
+if %build% LSS 21990 goto :EOF
 (
 echo Windows Registry Editor Version 5.00
 echo.
 echo [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Strings]
-echo "StickyMessage"="{\"Message\":\"Device Enrolled Using Insider-Enroller\",\"LinkTitle\":\"\",\"LinkUrl\":\"\",\"DynamicXaml\":\"^<StackPanel xmlns=\\\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\\\"^>^<TextBlock Style=\\\"{StaticResource BodyTextBlockStyle }\\\"^>This device has been enrolled to the Windows Insider program using Insider-Enroller v%scriptver%. If you want to change settings of the enrollment or stop receiving Insider Preview builds, please use the script. ^<Hyperlink NavigateUri=\\\"https://github.com/Jathurshan-2019/Insider-Enroller\\\" TextDecorations=\\\"None\\\"^>Learn more from This Page^</Hyperlink^>^</TextBlock^>^<TextBlock Text=\\\"Applied configuration\\\" Margin=\\\"0,20,0,10\\\" Style=\\\"{StaticResource SubtitleTextBlockStyle}\\\" /^>^<TextBlock Style=\\\"{StaticResource BodyTextBlockStyle }\\\" Margin=\\\"0,0,0,5\\\"^>^<Run FontFamily=\\\"Segoe MDL2 Assets\\\"^>^&#xECA7;^</Run^> ^<Span FontWeight=\\\"SemiBold\\\"^>%Fancy%^</Span^>^</TextBlock^>^<TextBlock Text=\\\"Channel: %Channel% Channel\\\" Style=\\\"{StaticResource BodyTextBlockStyle }\\\" /^>^<TextBlock Text=\\\"Content: %Content%\\\" Style=\\\"{StaticResource BodyTextBlockStyle }\\\" /^>^<TextBlock Text=\\\"Telemetry settings notice\\\" Margin=\\\"0,20,0,10\\\" Style=\\\"{StaticResource SubtitleTextBlockStyle}\\\" /^>^<TextBlock Style=\\\"{StaticResource BodyTextBlockStyle }\\\"^>Windows Insider Program requires diagnostic data collection settings to be set to ^<Span FontWeight=\\\"SemiBold\\\"^>Full^</Span^>. You can verify or modify your current settings in ^<Span FontWeight=\\\"SemiBold\\\"^>Diagnostics ^&amp; feedback^</Span^>.^</TextBlock^>^<Button Command=\\\"{StaticResource ActivateUriCommand}\\\" CommandParameter=\\\"ms-settings:privacy-feedback\\\" Margin=\\\"0,10,0,0\\\"^>^<TextBlock Margin=\\\"5,0,5,0\\\"^>Open Diagnostics ^&amp; feedback^</TextBlock^>^</Button^>^</StackPanel^>\",\"Severity\":0}"
+echo "StickyMessage"="{\"Message\":\"Device Enrolled Using Insider-Enroller v%scriptver%\",\"LinkTitle\":\"\",\"LinkUrl\":\"\",\"DynamicXaml\":\"^<StackPanel xmlns=\\\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\\\"^>^<TextBlock Style=\\\"{StaticResource BodyTextBlockStyle }\\\"^>This device has been enrolled to the Windows Insider program using Insider-Enroller v%scriptver%. If you want to change settings of the enrollment or stop receiving Insider Preview builds, please use the script. ^<Hyperlink NavigateUri=\\\"https://github.com/Jathurshan-2019/offlineinsiderenroll/blob/master/readme.md\\\" TextDecorations=\\\"None\\\"^>Learn more about Script^</Hyperlink^>^</TextBlock^>^<TextBlock Text=\\\"Applied configuration\\\" Margin=\\\"0,20,0,10\\\" Style=\\\"{StaticResource SubtitleTextBlockStyle}\\\" /^>^<TextBlock Style=\\\"{StaticResource BodyTextBlockStyle }\\\" Margin=\\\"0,0,0,5\\\"^>^<Run FontFamily=\\\"Segoe MDL2 Assets\\\"^>^&#xECA7;^</Run^> ^<Span FontWeight=\\\"SemiBold\\\"^>%Fancy%^</Span^>^</TextBlock^>^<TextBlock Text=\\\"Channel: %Channel% Channel\\\" Style=\\\"{StaticResource BodyTextBlockStyle }\\\" /^>^<TextBlock Text=\\\"Content: %Content%\\\" Style=\\\"{StaticResource BodyTextBlockStyle }\\\" /^>^<TextBlock Text=\\\"Telemetry settings notice\\\" Margin=\\\"0,20,0,10\\\" Style=\\\"{StaticResource SubtitleTextBlockStyle}\\\" /^>^<TextBlock Style=\\\"{StaticResource BodyTextBlockStyle }\\\"^>Windows Insider Program requires ^<Span FontWeight=\\\"SemiBold\\\"^>optional diagnostic data^</Span^>. You can verify or modify your current settings in ^<Span FontWeight=\\\"SemiBold\\\"^>Diagnostics ^&amp; feedback^</Span^>.^</TextBlock^>^<Button Command=\\\"{StaticResource ActivateUriCommand}\\\" CommandParameter=\\\"ms-settings:privacy-feedback\\\" Margin=\\\"0,10,0,0\\\"^>^<TextBlock Margin=\\\"5,0,5,0\\\"^>Open Diagnostics ^&amp; feedback^</TextBlock^>^</Button^>^</StackPanel^>\",\"Severity\":0}"
 echo.
 )>"%SystemRoot%\oie.reg"
 regedit /s "%SystemRoot%\oie.reg"
@@ -187,48 +219,60 @@ del /f /q "%SystemRoot%\oie.reg"
 goto :EOF
 
 :ENROLL
-echo Applying changes...
-echo Applied changes.
-echo ------------------------------------------
-echo   Enrolled to Windows %Channel% Channel.
-echo ------------------------------------------
+echo Applying changes.
+echo.
 call :RESET_INSIDER_CONFIG 1>NUL 2>NUL
+echo resetting some values
+echo.
 call :ADD_INSIDER_CONFIG 1>NUL 2>NUL
+echo adding some values
+echo.
 bcdedit /set {current} flightsigning yes >nul 2>&1
-echo Done.
+echo :):):):):):):):):):):):):):):):):):)
+echo         Applied Successfully
+echo :):):):):):):):):):):):):):):):):):)
+echo. 
+echo You are Enrolled to %Channel% Channel
+echo.
+echo ===================
+echo     :) Done. :)
+echo ===================
+echo.
 
-call :RESET_INSIDER_CONFIG 1>NUL 2>NUL
-call :ADD_INSIDER_CONFIG 1>NUL 2>NUL
-bcdedit /set {current} flightsigning yes >NUL 2>&1
-echo Done.
 
 echo.
 if %FlightSigningEnabled% neq 1 goto :ASK_FOR_REBOOT
-echo Press any key to exit.
+echo =========================
+echo   Press any key to exit
+echo =========================
 pause >nul
 goto :EOF
 
 :STOP_INSIDER
-echo Applying changes....
-echo Applied changes
-echo -----------------------------------------------------------
-echo   Insider builds are stopped from Windows Insider Channel
-echo -----------------------------------------------------------
-call :RESET_INSIDER_CONFIG 1>NUL 2>NUL
-bcdedit /deletevalue {current} flightsigning >NUL 2>&1
-echo Done.
+echo Applying changes...
+echo.
+call :RESET_INSIDER_CONFIG 1>nul 2>nul
+bcdedit /deletevalue {current} flightsigning >nul 2>&1
+echo :(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(
+echo    Leaved Insider Program Successfully.
+echo :(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(:(
+echo.
+echo ============
+echo     Done
+echo ============
 
 echo.
-IF %FlightSigningEnabled% NEQ 0 goto :ASK_FOR_REBOOT
+if %FlightSigningEnabled% neq 0 goto :ASK_FOR_REBOOT
 echo Press any key to exit.
-pause>nul
+pause >nul
 goto :EOF
 
 :ASK_FOR_REBOOT
-set "choice="
-echo Reboot is required to finish applying changes.
-echo PLEASE RESTART YOUR PC AFTER FINISHING ENROLLMENT OR AFTER FINISHING DISABLE GETTING BUILDS
-set /p choice="Would you like to Restart your PC? (y/N) "
+set "enter your choice="
+echo ===============================================
+echo |Reboot is required to finish applying changes|
+echo ===============================================
+echo.
+set /p choice="Would you like to reboot your PC? (y/N) "
 if /I "%choice%"=="y" shutdown -r -t 0
 goto :EOF
-
