@@ -21,9 +21,9 @@
 >by right clicking it > **`Run as Administrator`**.
 
 #### Installation and configuration changes
->After starting the script offers selection of *Windows Insider Program* channels.
->To make a selection, press a letter coresponding to option you choose and press
->ENTER.
+>Run .exe File in Insider-Enroller 1.0.0
+>Select your choice
+>The application will automatically starts enrolling process
 
 ##### If the machine was not enrolled to the Insider Program, you will get prompted to
 ##### restart your machine to enable *Microsoft Flight Signing* which is required by
