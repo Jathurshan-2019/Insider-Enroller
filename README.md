@@ -20,14 +20,13 @@ To Run it as Administrator
 Right Click the file and select **`Run as Administrator`** Option.
 [![](https://drive.google.com/uc?export=view&id=15Vb4xFaud1a5s8yseIBcsF0VXo2PPCOk)](https://google.com)
 
---------------------------------------------------------
 [![](https://drive.google.com/uc?export=view&id=15_HYkXHeT5K9_YU_h-9JwFqkpmFD9DKU)](https://google.com)
 
 
 -------
 
 ##### Note:
-If you are on __Windows 10 or Windows 11 in an Officially Supported System__ Make sure to Run **`Insider_Enroller_Supported_PCs.cmd`**
+If you are on __Windows 10 or Windows 11 in an Officially Supported System__ Make sure to Run **`Insider_Enroller_W10_W11.cmd`**
 
 ---------
 If you are on __Windows 11 in an Officially Unsupported System__ Make sure to Run **`Insider_Enroller_UnSupported_PCs.cmd`**
