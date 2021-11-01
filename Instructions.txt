@@ -1,6 +1,0 @@
-Insider Enroller v2.0.0
-
-
-Run files Registry files that is inside Registry Folder
-
-next Run cmd file in Insider Enroller v2.0.0
